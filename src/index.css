@@ -1,24 +1,34 @@
 @import "tailwindcss";
 
-.activeEffect{
-    position: relative;
+body {
+  overflow-x: hidden;
 }
-.activeEffect::before{
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 3px;
-    left:0;
-    bottom: -4px;
-    background: #ff1111;
-    transition: all 0.5s ease;
+
+.activeEffect {
+  position: relative;
 }
-.activeEffect.active::before{
-    width: 100%;
-    left: 0;
+.activeEffect::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 3px;
+  left: 0;
+  bottom: -4px;
+  background: #ff1111;
+  transition: all 0.5s ease;
+}
+.activeEffect.active::before {
+  width: 100%;
+  left: 0;
 }
 /* clerk account avatar */
-.cl-avatarBox{
-    width: 2.5rem;
-    height: 2.5rem;
+.cl-avatarBox {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+@media screen and (max-width: 768px) {
+  .cl-avatarBox {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
 }

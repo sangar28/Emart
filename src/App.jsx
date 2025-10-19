@@ -12,8 +12,18 @@ import Cart from "./pages/Cart";
 import axios from "axios";
 
 const App = () => {
-  const [location, setLocation] = useState();
   const [dropDown, setDropDown] = useState(false);
+  const [location, setLocation] = useState(() => {
+    try {
+      const item = localStorage.getItem("location");
+      return item ? JSON.parse(item) : null;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  });
+
+  // getlocation section
 
   const getLocation = async () => {
     navigator.geolocation.getCurrentPosition(async (pos) => {
@@ -23,7 +33,7 @@ const App = () => {
       try {
         const location = await axios.get(url);
         const exactLocation = location.data.address;
-        // console.log(exactLocation);
+        console.log(exactLocation);
         setLocation(exactLocation);
         setDropDown(false);
         // console.log(location);
@@ -33,9 +43,13 @@ const App = () => {
     });
   };
 
-  useEffect(() => {
+  const handleLocation = () => {
     getLocation();
-  }, []);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("location", JSON.stringify(location));
+  }, [location]);
 
   const turnOffLocation = () => {
     setLocation(null);
@@ -45,13 +59,13 @@ const App = () => {
     <BrowserRouter>
       <Navbar
         location={location}
-        getLocation={getLocation}
         dropDown={dropDown}
         setDropDown={setDropDown}
         turnOffLocation={turnOffLocation}
+        handleLocation={handleLocation}
       />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<Products />} />
         <Route path="/contact" element={<Contact />} />
